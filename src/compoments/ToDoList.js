@@ -3,7 +3,7 @@ import axios from "axios";
 import "./ToDoList.scss";
 
 const ToDoList = () => {
-  // const URL = "https://pern-todolist-server-only-production.up.railway.app";
+  const URL = "https://pern-todolist-server-only-production.up.railway.app";
   const [taskList, setTaskList] = useState([]);
   const [inputTask, setInputTask] = useState("");
   const [editTask, setEditTask] = useState({});
@@ -13,7 +13,7 @@ const ToDoList = () => {
   useEffect(() => {
     const getAllTaskAPI = async () => {
       try {
-        const res = await axios.get("/tasks");
+        const res = await axios.get(`${URL}/tasks`);
         const data = res.data;
         setTaskList(data.data);
       } catch (error) {
@@ -33,7 +33,7 @@ const ToDoList = () => {
         try {
           // Post new task to server
           let task = { name: inputTask };
-          await axios.post("/create", task);
+          await axios.post(`${URL}/create`, task);
 
           console.log("Check new add list:", taskList);
 
@@ -51,7 +51,7 @@ const ToDoList = () => {
     // Post delete task
     const targetID = task.id;
     const targetDeleteTask = { id: targetID };
-    await axios.post("/delete", targetDeleteTask);
+    await axios.post(`${URL}/delete`, targetDeleteTask);
 
     console.log("Check new delete list:", taskList);
   };
@@ -61,7 +61,7 @@ const ToDoList = () => {
     // Post complete task
     const targetID = task.id;
     const targetComplete = { id: targetID };
-    await axios.post("/complete", targetComplete);
+    await axios.post(`${URL}/complete`, targetComplete);
 
     console.log("Check new complete list:", taskList);
   };
@@ -82,7 +82,7 @@ const ToDoList = () => {
       // Post edit task
       const targetEdit = { id: editTask.id, name: inputEditTask };
       console.log(targetEdit);
-      await axios.post("/edit", targetEdit);
+      await axios.post(`${URL}/edit`, targetEdit);
 
       console.log("Check new edit list:", taskList);
     }
